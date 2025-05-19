@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "516056173373",
+    "project_id": "lecturaprimaria-4490c",
+    "storage_bucket": "lecturaprimaria-4490c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:516056173373:android:86469cb9627665ccf41354",
+        "android_client_info": {
+          "package_name": "com.example.lecturaparaprimaria"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHfFaux5hin0M8Xe2El0HXZ66JTlzWsHw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

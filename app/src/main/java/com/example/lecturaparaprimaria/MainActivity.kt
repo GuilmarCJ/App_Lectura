@@ -12,14 +12,26 @@ import kotlinx.coroutines.launch
 import androidx.compose.runtime.rememberCoroutineScope
 import com.example.lecturaparaprimaria.ui.theme.LecturaParaPrimariaTheme
 import com.example.lecturaparaprimaria.data.AppDatabase
+import com.example.lecturaparaprimaria.data.SyncRepository
 import com.example.lecturaparaprimaria.data.Usuario
 import com.example.lecturaparaprimaria.data.UsuarioDao
+import com.google.firebase.FirebaseApp
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.tasks.await
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Inicializar Firebase (si no lo has hecho en tu Application class)
+        FirebaseApp.initializeApp(this)
+
         val database = AppDatabase.getDatabase(applicationContext)
+
+        val syncRepo = SyncRepository(database)
+
+        // Programar sincronización periódica
+        syncRepo.scheduleSync()
 
         setContent {
             LecturaParaPrimariaTheme {
@@ -88,17 +100,26 @@ fun PantallaRegistro(
                     if (nombre.isNotBlank()) {
                         coroutineScope.launch {
                             val usuario = Usuario(nombre)
-                            val resultado = database.usuarioDao().insertar(usuario)
-                            if (resultado != -1L) {
-                                mensaje = "Usuario registrado con éxito"
+                            // 1. Guardar en Room
+                            database.usuarioDao().insertar(usuario)
+
+                            // 2. Sincronizar con Firebase (nuevo código)
+                            try {
+                                val firestore = FirebaseFirestore.getInstance()
+                                firestore.collection("usuarios")
+                                    .document(usuario.nombre)
+                                    .set(usuario)
+                                    .await() // Espera a que se complete
+
+                                mensaje = "Usuario registrado y sincronizado"
                                 onUsuarioRegistrado(usuario)
-                            } else {
-                                mensaje = "El usuario ya existe"
+                            } catch (e: Exception) {
+                                mensaje = "Usuario registrado localmente (sin conexión)"
+                                onUsuarioRegistrado(usuario)
                             }
                         }
                     }
-                },
-                modifier = Modifier.fillMaxWidth()
+                }
             ) {
                 Text("Registrarse")
             }
