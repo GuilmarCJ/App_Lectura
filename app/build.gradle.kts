@@ -74,5 +74,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
     // WorkManager (Para sincronización en segundo plano)
     implementation("androidx.work:work-runtime-ktx:2.9.0")
+    implementation("androidx.compose.material:material-icons-extended:1.6.7") // Para los iconos
+    implementation("androidx.compose.foundation:foundation:1.6.7") // Para LazyVerticalGrid
 
 }

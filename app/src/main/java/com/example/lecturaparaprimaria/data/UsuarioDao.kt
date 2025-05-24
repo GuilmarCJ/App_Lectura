@@ -1,6 +1,7 @@
 package com.example.lecturaparaprimaria.data
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 
@@ -11,4 +12,14 @@ interface UsuarioDao {
 
     @Query("SELECT * FROM usuarios")
     suspend fun obtenerTodos(): List<Usuario>
+
+    // Nuevo método para actualizar el avatar
+    @Query("UPDATE usuarios SET avatarId = :avatarId WHERE nombre = :nombre")
+    suspend fun actualizarAvatar(nombre: String, avatarId: Int)
+
+    @Query("SELECT * FROM usuarios WHERE nombre = :nombre LIMIT 1")
+    suspend fun obtenerPorNombre(nombre: String): Usuario
+
+    @Delete
+    suspend fun eliminar(usuario: Usuario)
 }
