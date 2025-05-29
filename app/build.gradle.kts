@@ -76,5 +76,9 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:2.9.0")
     implementation("androidx.compose.material:material-icons-extended:1.6.7") // Para los iconos
     implementation("androidx.compose.foundation:foundation:1.6.7") // Para LazyVerticalGrid
+    implementation("com.google.accompanist:accompanist-pager:0.28.0") // Para el carrusel horizontal
+    implementation ("com.google.accompanist:accompanist-pager:0.28.0")
+    // Si usas indicadores:
+    implementation ("com.google.accompanist:accompanist-pager-indicators:0.28.0")
 
 }
