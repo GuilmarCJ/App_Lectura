@@ -1,4 +1,6 @@
-package com.example.lecturaparaprimaria
+package com.example.lecturaparaprimaria.ui.components
+
+import com.example.lecturaparaprimaria.R
 
 object Avatares {
     // Lista de pares (ID, Recurso Drawable)
