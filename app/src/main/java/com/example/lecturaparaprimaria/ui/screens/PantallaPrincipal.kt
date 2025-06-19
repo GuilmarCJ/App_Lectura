@@ -1,26 +1,18 @@
 package com.example.lecturaparaprimaria.ui.screens
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -30,83 +22,119 @@ import com.example.lecturaparaprimaria.ui.components.Avatares
 
 @Composable
 fun PantallaPrincipal(usuario: Usuario) {
+    var mostrarNiveles by remember { mutableStateOf(false) }
+    var nivelDesbloqueado by remember { mutableStateOf(1) } // Puedes cargar esto de la BD si lo necesitas
+
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 24.dp),
-            verticalArrangement = Arrangement.Top
-        ) {
-            // Header con avatar y nombre
-            Row(
+        Box(modifier = Modifier.fillMaxSize()) {
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 32.dp, bottom = 24.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Start
+                    .fillMaxSize()
+                    .padding(horizontal = 24.dp, vertical = 32.dp),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Avatar
-                Avatares.obtenerDrawable(usuario.avatarId)?.let { avatarRes ->
-                    Image(
-                        painter = painterResource(id = avatarRes),
-                        contentDescription = "Avatar de ${usuario.nombre}",
-                        modifier = Modifier
-                            .size(64.dp)
-                            .clip(CircleShape),
-                        contentScale = ContentScale.Crop
-                    )
-                }
-
-                Spacer(modifier = Modifier.width(16.dp))
-
-                // Nombre y nivel
-                Column {
-                    Text(
-                        text = usuario.nombre,
-                        style = MaterialTheme.typography.titleLarge.copy(
-                            fontWeight = FontWeight.Bold
+                // Header
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    modifier = Modifier.padding(bottom = 32.dp)
+                ) {
+                    Avatares.obtenerDrawable(usuario.avatarId)?.let { avatarRes ->
+                        Image(
+                            painter = painterResource(id = avatarRes),
+                            contentDescription = "Avatar de ${usuario.nombre}",
+                            modifier = Modifier
+                                .size(64.dp)
+                                .clip(RoundedCornerShape(32.dp)),
+                            contentScale = ContentScale.Crop
                         )
-                    )
-                    Text(
-                        text = "Level 1", // Puedes hacer esto dinámico si lo necesitas
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
-                    )
+                    }
+
+                    Column {
+                        Text(
+                            text = usuario.nombre,
+                            style = MaterialTheme.typography.titleLarge.copy(
+                                fontWeight = FontWeight.Bold
+                            )
+                        )
+                        Text(
+                            text = "Level $nivelDesbloqueado",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
                 }
 
-                Spacer(modifier = Modifier.weight(1f))
+                val buttonColors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF4B5BA6),
+                    contentColor = Color.White
+                )
 
-                // Fecha y hora
-                Column(horizontalAlignment = Alignment.End) {
-                    Text(
-                        text = "TODAY",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
-                    )
-                    Text(
-                        text = "22 minutes", // Puedes hacer esto dinámico
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
-                    )
+                Button(
+                    onClick = { mostrarNiveles = true },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp),
+                    shape = RoundedCornerShape(20.dp),
+                    colors = buttonColors
+                ) {
+                    Text("JUGAR")
+                }
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Button(
+                    onClick = { /* TODO: Acción RANGO ACTUAL */ },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp),
+                    shape = RoundedCornerShape(20.dp),
+                    colors = buttonColors
+                ) {
+                    Text("RANGO ACTUAL")
+                }
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Button(
+                    onClick = { /* TODO: Acción TIENDA */ },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp),
+                    shape = RoundedCornerShape(20.dp),
+                    colors = buttonColors
+                ) {
+                    Text("TIENDA")
+                }
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Button(
+                    onClick = { /* TODO: Acción OPCIONES */ },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp),
+                    shape = RoundedCornerShape(20.dp),
+                    colors = buttonColors
+                ) {
+                    Text("OPCIONES")
                 }
             }
 
-            // Aquí iría el contenido principal de tu pantalla
-            // (Lecciones, progreso, etc.)
-
-            // Ejemplo de sección de progreso (puedes personalizarlo)
-            Text(
-                text = "Tu progreso",
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
-            )
-
-            // Puedes agregar aquí tus componentes específicos
-            // como gráficos de progreso, listas de lecciones, etc.
+            if (mostrarNiveles) {
+                PantallaNiveles(
+                    nivelDesbloqueado = nivelDesbloqueado,
+                    onNivelSeleccionado = { nivel ->
+                        // Aquí puedes manejar la lógica de navegación
+                        mostrarNiveles = false
+                        nivelDesbloqueado = nivel
+                        // TODO: Ir al juego, por ejemplo
+                    }
+                )
+            }
         }
     }
 }
-

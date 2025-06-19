@@ -4,28 +4,21 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -46,7 +39,8 @@ fun PantallaSeleccionAvatar(
     onAvatarSeleccionado: () -> Unit
 ) {
     val avatares = Avatares.lista
-    // Inicializamos con el ID lógico del avatar
+    val avataresDesbloqueados = listOf(16, 17, 18, 19) // IDs lógicos desbloqueados
+
     var idAvatarSeleccionado by remember { mutableIntStateOf(usuario.avatarId) }
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -70,6 +64,8 @@ fun PantallaSeleccionAvatar(
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(avatares) { (idLogico, drawable) ->
+                val desbloqueado = idLogico in avataresDesbloqueados
+
                 Box(
                     modifier = Modifier
                         .size(100.dp)
@@ -80,14 +76,26 @@ fun PantallaSeleccionAvatar(
                             else Color.Transparent,
                             shape = CircleShape
                         )
-                        .clickable { idAvatarSeleccionado = idLogico }
+                        .then(if (desbloqueado) Modifier.clickable { idAvatarSeleccionado = idLogico } else Modifier)
                 ) {
                     Image(
                         painter = painterResource(id = drawable),
                         contentDescription = "Avatar $idLogico",
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .alpha(if (desbloqueado) 1f else 0.4f),
                         contentScale = ContentScale.Crop
                     )
+                    if (!desbloqueado) {
+                        Icon(
+                            imageVector = Icons.Default.Lock,
+                            contentDescription = "Bloqueado",
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .size(32.dp),
+                            tint = Color.White
+                        )
+                    }
                 }
             }
         }
@@ -95,9 +103,7 @@ fun PantallaSeleccionAvatar(
         Button(
             onClick = {
                 coroutineScope.launch {
-                    // Guardamos solo el ID lógico (12, 16, etc.)
                     database.usuarioDao().actualizarAvatar(usuario.nombre, idAvatarSeleccionado)
-
                     try {
                         FirebaseFirestore.getInstance()
                             .collection("usuarios")
