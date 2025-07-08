@@ -21,7 +21,7 @@ import com.example.lecturaparaprimaria.data.Usuario
 import com.example.lecturaparaprimaria.ui.components.Avatares
 
 @Composable
-fun PantallaPrincipal(usuario: Usuario) {
+fun PantallaPrincipal(usuario: Usuario, onNivelSeleccionado: (Int) -> Unit) {
     var mostrarNiveles by remember { mutableStateOf(false) }
     var nivelDesbloqueado by remember { mutableStateOf(1) } // Puedes cargar esto de la BD si lo necesitas
 
@@ -126,12 +126,10 @@ fun PantallaPrincipal(usuario: Usuario) {
 
             if (mostrarNiveles) {
                 PantallaNiveles(
-                    nivelDesbloqueado = nivelDesbloqueado,
+                    nivelDesbloqueado = 1, // Puedes cargarlo desde Room/Firebase
                     onNivelSeleccionado = { nivel ->
-                        // Aquí puedes manejar la lógica de navegación
                         mostrarNiveles = false
-                        nivelDesbloqueado = nivel
-                        // TODO: Ir al juego, por ejemplo
+                        onNivelSeleccionado(nivel) // <- Notifica al padre (NavGraph)
                     }
                 )
             }

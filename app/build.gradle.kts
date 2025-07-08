@@ -17,8 +17,13 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments.put("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
     }
 
     buildTypes {
@@ -80,5 +85,22 @@ dependencies {
     implementation ("com.google.accompanist:accompanist-pager:0.28.0")
     // Si usas indicadores:
     implementation ("com.google.accompanist:accompanist-pager-indicators:0.28.0")
+
+    // Gson para convertir objetos a JSON (TypeConverters)
+    implementation("com.google.code.gson:gson:2.10.1")
+
+// Room Kotlin Extensions (para corrutinas)
+    implementation("androidx.room:room-ktx:2.6.1")
+
+    implementation ("androidx.navigation:navigation-compose:2.7.7")  // Usa la versión más reciente
+
+    // Room
+    implementation("androidx.room:room-runtime:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+
+// Gson (para usar en los TypeConverters)
+    implementation("com.google.code.gson:gson:2.10.1")
+
 
 }

@@ -1,36 +1,19 @@
 package com.example.lecturaparaprimaria.ui.screens
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PersonAdd
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.example.lecturaparaprimaria.R
 import com.example.lecturaparaprimaria.data.AppDatabase
 import com.example.lecturaparaprimaria.data.Usuario
+import com.example.lecturaparaprimaria.utils.SoundPlayer
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -41,6 +24,17 @@ fun PantallaRegistro(
     onUsuarioRegistrado: (Usuario) -> Unit,
     irAPantallaUsuarios: () -> Unit
 ) {
+    // Configuración del reproductor de sonido
+    val context = LocalContext.current  // ✅ CORREGIDO AQUÍ
+    val soundPlayer = remember { SoundPlayer(context) }  // ✅ AHORA FUNCIONA BIEN
+    val sonidoRegistro = R.raw.sonido1
+    val sonidoSeleccionUsuario = R.raw.sonido2
+
+    // Limpieza de recursos al desmontar
+    DisposableEffect(Unit) {
+        onDispose { soundPlayer.release() }
+    }
+
     var nombre by remember { mutableStateOf("") }
     var mensaje by remember { mutableStateOf<String?>(null) }
     val coroutineScope = rememberCoroutineScope()
@@ -88,8 +82,10 @@ fun PantallaRegistro(
 
             Spacer(modifier = Modifier.height(24.dp))
 
+            // Botón de Registro con sonido
             Button(
                 onClick = {
+                    soundPlayer.playSound(sonidoRegistro)
                     if (nombre.isNotBlank()) {
                         coroutineScope.launch {
                             val usuario = Usuario(nombre)
@@ -125,8 +121,12 @@ fun PantallaRegistro(
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Botón de Selección de Usuario con sonido diferente
             TextButton(
-                onClick = irAPantallaUsuarios,
+                onClick = {
+                    soundPlayer.playSound(sonidoSeleccionUsuario)
+                    irAPantallaUsuarios()
+                },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
