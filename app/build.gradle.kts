@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("kotlin-kapt")
-    //firebase
     id("com.google.gms.google-services")
 }
 
@@ -35,20 +34,22 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     kotlinOptions {
         jvmTarget = "11"
     }
+
     buildFeatures {
         compose = true
     }
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -57,7 +58,30 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.firebase.firestore.ktx)
+
+    // Firebase BoM (maneja todas las versiones)
+    implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-auth-ktx")
+
+    // WorkManager
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
+
+    // Room
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+
+    // Gson
+    implementation("com.google.code.gson:gson:2.10.1")
+
+    // Compose extra
+    implementation("androidx.compose.material:material-icons-extended:1.6.7")
+    implementation("androidx.compose.foundation:foundation:1.6.7")
+    implementation("com.google.accompanist:accompanist-pager:0.28.0")
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.28.0")
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -65,42 +89,4 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    implementation("androidx.room:room-runtime:2.6.1")
-    kapt("androidx.room:room-compiler:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
-    // Import the Firebase BoM
-    implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
-
-    //Implementacion Para Datareal
-
-    // Firebase Firestore (Base de datos en tiempo real)
-    implementation("com.google.firebase:firebase-firestore-ktx:24.11.0")
-    // Firebase Auth (Opcional, si necesitas autenticación)
-    implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
-    // WorkManager (Para sincronización en segundo plano)
-    implementation("androidx.work:work-runtime-ktx:2.9.0")
-    implementation("androidx.compose.material:material-icons-extended:1.6.7") // Para los iconos
-    implementation("androidx.compose.foundation:foundation:1.6.7") // Para LazyVerticalGrid
-    implementation("com.google.accompanist:accompanist-pager:0.28.0") // Para el carrusel horizontal
-    implementation ("com.google.accompanist:accompanist-pager:0.28.0")
-    // Si usas indicadores:
-    implementation ("com.google.accompanist:accompanist-pager-indicators:0.28.0")
-
-    // Gson para convertir objetos a JSON (TypeConverters)
-    implementation("com.google.code.gson:gson:2.10.1")
-
-// Room Kotlin Extensions (para corrutinas)
-    implementation("androidx.room:room-ktx:2.6.1")
-
-    implementation ("androidx.navigation:navigation-compose:2.7.7")  // Usa la versión más reciente
-
-    // Room
-    implementation("androidx.room:room-runtime:2.6.1")
-    kapt("androidx.room:room-compiler:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
-
-// Gson (para usar en los TypeConverters)
-    implementation("com.google.code.gson:gson:2.10.1")
-
-
 }
