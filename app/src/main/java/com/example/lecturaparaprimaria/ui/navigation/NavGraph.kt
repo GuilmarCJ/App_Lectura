@@ -21,6 +21,7 @@ import com.example.lecturaparaprimaria.data.AppDatabase
 import com.example.lecturaparaprimaria.data.ContenidoEducativo
 import com.example.lecturaparaprimaria.data.Usuario
 import com.example.lecturaparaprimaria.ui.screens.Nivel1Screen
+import com.example.lecturaparaprimaria.ui.screens.Nivel2Screen
 import com.example.lecturaparaprimaria.ui.screens.OnboardingScreen
 import com.example.lecturaparaprimaria.ui.screens.PantallaPrincipal
 import com.example.lecturaparaprimaria.ui.screens.PantallaRegistro
@@ -113,15 +114,40 @@ fun NavGraph(
                         contenido = contenido!!,
                         onRespuestaSeleccionada = { esCorrecta ->
                             coroutineScope.launch {
-                                // Guardar progreso en Firebase si es necesario
+                                // Aquí puedes guardar en Firebase si deseas
                             }
                         },
-                        onBack = { pantallaActual = "principal" } // Volver
+                        onBack = { pantallaActual = "principal" },
+                        onAvanzarNivel2 = { pantallaActual = "nivel2" }  // ← AGREGA ESTA LÍNEA
+                    )
+
+                }}
+
+            "nivel2" -> {
+                val contenido by produceState<ContenidoEducativo?>(
+                    initialValue = null,
+                    key1 = Unit,
+                    producer = {
+                        value = database.contenidoDao().obtenerContenido(2)
+                    }
+                )
+
+                if (contenido != null) {
+                    Nivel2Screen(
+                        contenido = contenido!!,
+                        onRespuestaSeleccionada = { esCorrecta ->
+                            coroutineScope.launch {
+                                // Guardar progreso en Firebase si deseas
+                            }
+                        },
+                        onBack = { pantallaActual = "principal" },
+                        onAvanzarNivel3 = { pantallaActual = "nivel3" } // ← Este será tu siguiente nivel
                     )
                 } else {
                     Text("Error: No se encontró el nivel")
                 }
             }
+
 
         }
     }

@@ -29,7 +29,7 @@ fun Nivel1Screen(
     contenido: ContenidoEducativo,
     onRespuestaSeleccionada: (Boolean) -> Unit,
     onBack: () -> Unit,
-
+    onAvanzarNivel2: () -> Unit
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -142,6 +142,7 @@ fun Nivel1Screen(
                                     )
                                 )
                             }
+
                         }
                     }
                 },
@@ -160,9 +161,14 @@ fun Nivel1Screen(
             correctas = correctas,
             incorrectas = incorrectas,
             onCerrar = {
-                onBack() // ✅ Vuelve a la pantalla anterior
+                if (correctas > 7) {
+                    onAvanzarNivel2()
+                } else {
+                    onBack()
+                }
             }
         )
+
     }
 }
 

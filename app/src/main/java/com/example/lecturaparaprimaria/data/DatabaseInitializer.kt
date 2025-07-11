@@ -227,6 +227,73 @@ object DatabaseInitializer {
                 )
         )
 
+        val nivel2 = ContenidoEducativo(
+            id = 2,
+            titulo = "El Pájaro Misterioso",
+            texto = "Dos pájaros descansaban en la rama de un árbol, de pronto echaron a volar y el árbol se quiso marchitar de tristeza.\n\n" +
+                    "A los pocos días llegó un pájaro con pico de oro y alas de fuego que se hacía llamar El Pájaro Misterioso.\n\n" +
+                    "—¿Por qué tan triste, árbol? —le preguntó El Pájaro Misterioso.\n\n" +
+                    "El árbol le contó que estaba muy fastidiado porque las hormigas le picaban todo el día y que no venían pájaros a despertarlo por las mañanas.\n\n" +
+                    "El Pájaro Misterioso levantó el pico y se puso a cantar. A los pocos minutos, llegaron los dos pájaros que se habían ido, seguidos de muchos otros pájaros de distintos colores y empezaron a dar vueltas alrededor del árbol.\n\n" +
+                    "A la mañana siguiente, el árbol se despertó contento y muy temprano, pues El Pájaro Misterioso cantaba sin parar y los otros pájaros lo acompañaban.",
+            preguntas = listOf(
+                Pregunta(1, 2, "¿Qué tipo de texto es “El Pájaro Misterioso”?", listOf("A) Un cuento", "B) Una receta", "C) Una noticia", "D) Un poema"), respuestaCorrecta =0),
+                Pregunta(2, 2, "¿Dónde descansaban los dos pájaros al inicio del cuento?", listOf("A) En el suelo", "B) En una rama", "C) En una jaula", "D) En un nido"), respuestaCorrecta =1),
+                Pregunta(3, 2, "¿Qué hicieron los dos pájaros?", listOf("A) Se escondieron", "B) Se durmieron", "C) Echaron a volar", "D) Se pelearon"), respuestaCorrecta =2),
+                Pregunta(4, 2, "¿Cómo se sintió el árbol cuando los pájaros se fueron?", listOf("A) Alegre", "B) Aburrido", "C) Confundido", "D) Triste"), respuestaCorrecta =3),
+                Pregunta(5, 2, "¿Qué parte del cuerpo tenía de oro el Pájaro Misterioso?", listOf("A) El pico", "B) Las patas", "C) La cola", "D) Las plumas"), respuestaCorrecta =0),
+                Pregunta(6, 2, "¿Cómo eran las alas del Pájaro Misterioso?", listOf("A) De hielo", "B) De hojas", "C) De fuego", "D) De plata"), 2),
+                Pregunta(7, 2, "¿Cómo se llamaba el nuevo pájaro que llegó?", listOf("A) El Pájaro Alegre", "B) El Gran Pájaro", "C) El Pájaro Colorido", "D) El Pájaro Misterioso"), respuestaCorrecta =3),
+                Pregunta(8, 2, "¿Qué hizo el Pájaro Misterioso al llegar?", listOf("A) Le preguntó al árbol por qué estaba triste", "B) Se fue volando", "C) Se durmió", "D) Se escondió"), respuestaCorrecta =0),
+                Pregunta(9, 2, "¿Qué le pasaba al árbol?", listOf("A) Tenía frío", "B) Estaba triste y lo picaban las hormigas", "C) No crecía", "D) Se estaba cayendo"), respuestaCorrecta =1),
+                Pregunta(10, 2, "¿Qué hacían las hormigas con el árbol?", listOf("A) Lo regaban", "B) Lo picaban", "C) Lo abrazaban", "D) Lo alimentaban"), respuestaCorrecta =1),
+                Pregunta(11, 2, "¿Por qué el árbol extrañaba a los pájaros?", listOf("B) Porque lo despertaban cantando", "A) Porque lo cuidaban", "C) Porque le traían frutas", "D) Porque le daban sombra"), respuestaCorrecta = 0),
+                Pregunta(12, 2, "¿Qué hizo el Pájaro Misterioso para ayudar?", listOf("C) Se puso a cantar", "A) Se fue", "B) Llamó al guardabosques", "D) Gritó muy fuerte"), respuestaCorrecta = 0),
+                Pregunta(13, 2, "¿Qué ocurrió mientras el Pájaro Misterioso cantaba?", listOf("D) Llegaron muchos pájaros", "A) Llovió", "B) Se callaron todos", "C) Las hormigas se fueron"), respuestaCorrecta = 0),
+                Pregunta(14, 2, "¿Quiénes volvieron al árbol?", listOf("B) Los dos pájaros que se habían ido", "A) El viento", "C) Los niños", "D) Las ardillas"), respuestaCorrecta = 0),
+                Pregunta(15, 2, "¿Cómo eran los nuevos pájaros que llegaron?", listOf("C) De muchos colores", "A) De un solo color", "B) Negros y blancos", "D) Grises"), respuestaCorrecta = 0),
+                Pregunta(16, 2, "¿Qué hacían los pájaros alrededor del árbol?", listOf("D) Daban vueltas cantando", "A) Se peleaban", "B) Dormían", "C) Picaban frutas"), respuestaCorrecta = 0),
+                Pregunta(17, 2, "¿Cómo se sintió el árbol al día siguiente?", listOf("A) Feliz y contento", "B) Asustado", "C) Enfermo", "D) Cansado"), respuestaCorrecta = 0),
+                Pregunta(18, 2, "¿Qué hacía el Pájaro Misterioso al amanecer?", listOf("C) Cantaba sin parar", "A) Dormía", "B) Volaba lejos", "D) Jugaba"), respuestaCorrecta = 0),
+                Pregunta(19, 2, "¿Quién acompañaba al Pájaro Misterioso?", listOf("C) Otros pájaros", "A) Nadie", "B) Los ratones", "D) Las hormigas"), respuestaCorrecta = 0),
+                Pregunta(20, 2, "¿Qué emoción expresa el final del cuento?", listOf("A) Alegría", "B) Enfado", "C) Tristeza", "D) Miedo"), respuestaCorrecta = 0),
+                Pregunta(21, 2, "¿Qué valor muestra el Pájaro Misterioso?", listOf("B) Amistad", "A) Envidia", "C) Codicia", "D) Pereza"), respuestaCorrecta = 0),
+                Pregunta(22, 2, "¿Qué aprendemos del cuento?", listOf("A) A ayudar a los demás", "B) A dormir más", "C) A ignorar los problemas", "D) A reírnos del árbol"), respuestaCorrecta = 0),
+                Pregunta(23, 2, "¿Por qué el árbol se sentía solo?", listOf("C) Porque no tenía pájaros", "A) Porque no tenía frutas", "B) Porque no lo regaban", "D) Porque era pequeño"), respuestaCorrecta = 0),
+                Pregunta(24, 2, "¿Qué hacen los amigos verdaderos?", listOf("C) Ayudan cuando alguien está triste", "A) Se burlan", "B) Se alejan", "D) Se esconden"), respuestaCorrecta = 0),
+                Pregunta(25, 2, "¿Qué podemos hacer como el Pájaro Misterioso?", listOf("D) Hacer felices a nuestros amigos", "A) Dormir todo el día", "B) Ignorar a los demás", "C) Volar alto"), respuestaCorrecta = 0),
+                Pregunta(26, 2, "¿Cuál es un buen título para este cuento?", listOf("B) El Pájaro Misterioso", "A) El árbol triste", "C) Los colores del bosque", "D) Las hormigas del árbol"), respuestaCorrecta = 0),
+                Pregunta(27, 2, "¿Qué hizo que regresaran los pájaros?", listOf("B) El canto del Pájaro Misterioso", "A) El viento", "C) La lluvia", "D) Las frutas"), respuestaCorrecta = 0),
+                Pregunta(28, 2, "¿Qué sentía el árbol por las hormigas?", listOf("C) Fastidio", "A) Gratitud", "B) Amor", "D) Felicidad"), respuestaCorrecta = 0),
+                Pregunta(29, 2, "¿Qué parte del cuento muestra el problema?", listOf("B) Cuando el árbol está solo y triste", "A) Cuando llegan los pájaros", "C) Cuando cantan", "D) Cuando vuelan"), respuestaCorrecta = 0),
+                Pregunta(30, 2, "¿Qué parte del cuento es la solución?", listOf("C) Cuando cantan y todos regresan", "A) Cuando se van los pájaros", "B) Cuando llegan las hormigas", "D) Cuando el árbol duerme"), respuestaCorrecta = 0),
+                Pregunta(31, 2, "¿Qué enseñanza nos deja el cuento?", listOf("B) Que debemos ayudar a los tristes", "A) Que es bueno estar solo", "C) Que los pájaros deben volar lejos", "D) Que las hormigas cantan"), respuestaCorrecta = 0),
+                Pregunta(32, 2, "¿Qué es lo más especial del Pájaro Misterioso?", listOf("C) Su canto y sus alas de fuego", "A) Sus patas", "B) Su cola", "D) Su tamaño"), respuestaCorrecta = 0),
+                Pregunta(33, 2, "¿Cómo es el ambiente del cuento?", listOf("A) Un bosque tranquilo", "B) Una ciudad", "C) Una playa", "D) Una casa"), respuestaCorrecta = 0),
+                Pregunta(34, 2, "¿Qué animal NO aparece en el cuento?", listOf("C) Gatos", "A) Hormigas", "B) Pájaros", "D) Árboles"), respuestaCorrecta = 0),
+                Pregunta(35, 2, "¿Qué causó la tristeza del árbol?", listOf("B) Que se fue la compañía de los pájaros", "A) Que no tenía hojas", "C) Que no dormía", "D) Que llovía mucho"), respuestaCorrecta = 0),
+                Pregunta(36, 2, "¿Qué lo hizo volver a estar feliz?", listOf("B) La llegada de los pájaros", "A) Comer frutas", "C) Las hormigas", "D) El viento"), respuestaCorrecta = 0),
+                Pregunta(37, 2, "¿Qué tenían de especial los pájaros nuevos?", listOf("B) Eran de muchos colores", "A) Eran silenciosos", "C) Eran grandes", "D) Eran verdes"), respuestaCorrecta = 0),
+                Pregunta(38, 2, "¿Qué mensaje da el cuento sobre la tristeza?", listOf("C) Que se puede superar con ayuda", "A) Que hay que ignorarla", "B) Que dura para siempre", "D) Que es divertida"), respuestaCorrecta = 0),
+                Pregunta(39, 2, "¿Qué hizo que todos los pájaros se juntaran?", listOf("B) El canto del Pájaro Misterioso", "A) Una fiesta", "C) El árbol los llamó", "D) Las frutas del árbol"), respuestaCorrecta = 0),
+                Pregunta(40, 2, "¿Cuál de estos personajes aparece en el cuento?", listOf("B) Un árbol", "A) Un león", "C) Un niño", "D) Un pez"), respuestaCorrecta = 0),
+                Pregunta(41, 2, "¿Qué muestra el cuento sobre los amigos?", listOf("B) Que pueden regresar y ayudar", "A) Que se van para siempre", "C) Que pelean mucho", "D) Que viven lejos"), respuestaCorrecta = 0),
+                Pregunta(42, 2, "¿Qué tipo de final tiene el cuento?", listOf("B) Feliz", "A) Triste", "C) Incompleto", "D) De suspenso"), respuestaCorrecta = 0),
+                Pregunta(43, 2, "¿Qué hizo el canto del Pájaro Misterioso?", listOf("B) Atrajo a otros pájaros", "A) Asustó a todos", "C) Hizo llover", "D) Espantó al árbol"), respuestaCorrecta = 0),
+                Pregunta(44, 2, "¿Qué significa tener alas de fuego en el cuento?", listOf("B) Que es especial y mágico", "A) Que se quema", "C) Que da miedo", "D) Que vuela lento"), respuestaCorrecta = 0),
+                Pregunta(45, 2, "¿Qué podemos hacer cuando vemos a alguien triste?", listOf("B) Animarlo como el Pájaro Misterioso", "A) Reírnos", "C) Ignorarlo", "D) Irnos"), respuestaCorrecta = 0),
+                Pregunta(46, 2, "¿Cuál fue el cambio principal en el árbol?", listOf("B) Pasó de estar triste a estar feliz", "A) Se enfermó", "C) Se cayó", "D) Se volvió pequeño"), respuestaCorrecta = 0),
+                Pregunta(47, 2, "¿Cómo ayudó el canto a mejorar el ambiente?", listOf("B) Con alegría y compañía", "A) Con calor", "C) Con silencio", "D) Con más hormigas"), respuestaCorrecta = 0),
+                Pregunta(48, 2, "¿Qué puede representar el Pájaro Misterioso en la vida real?", listOf("B) Una persona que ayuda a otros", "A) Un juguete", "C) Una nube", "D) Una flor"), respuestaCorrecta = 0),
+                Pregunta(49, 2, "¿Qué hizo el cuento más interesante?", listOf("B) La llegada del Pájaro Misterioso", "A) Las hormigas", "C) La tristeza", "D) Las ramas"), respuestaCorrecta = 0),
+                Pregunta(50, 2, "¿Qué aprendiste del cuento?", listOf("C) Que ayudar puede cambiar la vida de otros", "A) Que es mejor estar solo", "B) Que las hormigas son amigas", "D) Que los árboles vuelan"), respuestaCorrecta = 0)
+
+            )
+        )
+
         db.contenidoDao().insertarContenido(nivel1)
+
+        db.contenidoDao().insertarContenido(nivel2)
+
     }
 }
