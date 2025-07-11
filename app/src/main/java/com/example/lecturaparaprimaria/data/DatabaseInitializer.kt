@@ -291,6 +291,69 @@ object DatabaseInitializer {
             )
         )
 
+        val nivel3 = ContenidoEducativo(
+            id = 3,
+            titulo = "Mirando por la ventana",
+            texto = """
+        Había una vez un niño que cayó muy enfermo. Tenía que estar todo el día en cama sin poder moverse. Sufría mucho mirando el cielo a través de la ventana. Pasó algún tiempo, hasta que un día vio una extraña sombra en la ventana: era un pingüino que entró a la habitación, le dio las buenas tardes y se fue. Al principio se preguntaba qué sería aquello, pero luego, mientras seguían apareciendo personajes locos, ya no podía dejar de reír.
+
+        En poco tiempo mejoró y pudo volver al colegio y contar lo sucedido. En la mochila de su mejor amigo, vio algo extraño y le preguntó qué era. Finalmente, pudo ver: ¡allí estaban todos los disfraces que había utilizado su buen amigo para intentar alegrarle! Y, desde entonces, nuestro niño nunca deja que nadie esté solo y sin sonreír un rato.
+    """.trimIndent(),
+            preguntas = listOf(
+                Pregunta(1, 3, "¿Qué tipo de texto es “Mirando por la ventana”?", listOf("A) Un cuento", "B) Una carta", "C) Una noticia", "D) Un poema"), respuestaCorrecta =0),
+                Pregunta(2, 3, "¿Qué le pasó al niño del cuento?", listOf("A) Se perdió", "B) Se enfermó", "C) Se cayó", "D) Se fue de viaje"), respuestaCorrecta =1),
+                Pregunta(3, 3, "¿Dónde pasaba el niño la mayor parte del tiempo?", listOf("A) En el parque", "B) En el colegio", "C) En su cama", "D) En la cocina"), respuestaCorrecta =2),
+                Pregunta(4, 3, "¿Qué hacía el niño al mirar por la ventana?", listOf("A) Jugaba", "B) Sufría", "C) Gritaba", "D) Reía"), respuestaCorrecta =1),
+                Pregunta(5, 3, "¿Qué vio un día en la ventana?", listOf("A) Una nube", "B) Un avión", "C) Una sombra", "D) Una flor"), respuestaCorrecta =2),
+                Pregunta(6, 3, "¿Qué personaje apareció primero?", listOf("A) Un payaso", "B) Un pingüino", "C) Un oso", "D) Un gato"), respuestaCorrecta =1),
+                Pregunta(7, 3, "¿Qué hizo el pingüino?", listOf("A) Bailó", "B) Saludó y se fue", "C) Gritó", "D) Le regaló un juguete"), respuestaCorrecta =1),
+                Pregunta(8, 3, "¿Qué siguió pasando después del pingüino?", listOf("A) Aparecieron personajes locos", "B) Llegó el médico", "C) Se rompió la ventana", "D) Salió el Sol"), 0),
+                Pregunta(9, 3, "¿Cómo reaccionó el niño con los personajes?", listOf("A) Se asustó", "B) Se puso triste", "C) Comenzó a reír", "D) Lloró"), respuestaCorrecta =2),
+                Pregunta(10, 3, "¿Qué efecto tuvo la risa en el niño?", listOf("A) Mejoró", "B) Se enfermó más", "C) Se aburrió", "D) Se desmayó"), respuestaCorrecta =0),
+                Pregunta(11, 3, "¿A dónde pudo regresar el niño después?", listOf("A) A su casa", "B) Al colegio", "C) Al hospital", "D) A la playa"), respuestaCorrecta =1),
+                Pregunta(12, 3, "¿Qué encontró en la mochila de su amigo?", listOf("A) Una carta", "B) Algo extraño", "C) Una merienda", "D) Un libro"), respuestaCorrecta =1),
+                Pregunta(13, 3, "¿Qué tenía su mejor amigo en la mochila?", listOf("A) Disfraces", "B) Medicinas", "C) Juguetes", "D) Animales"), respuestaCorrecta =0),
+                Pregunta(14, 3, "¿Para qué usó los disfraces el amigo?", listOf("A) Para ir al carnaval", "B) Para alegrar al niño", "C) Para hacer bromas", "D) Para hacer tareas"), respuestaCorrecta =1),
+                Pregunta(15, 3, "¿Cómo se sintió el niño al descubrir la verdad?", listOf("A) Decepcionado", "B) Agradecido", "C) Triste", "D) Enfadado"), respuestaCorrecta =1),
+                Pregunta(16, 3, "¿Qué aprendió el niño luego de su experiencia?", listOf("A) A no dejar que nadie esté solo", "B) A usar disfraces", "C) A leer cuentos", "D) A tener miedo"),respuestaCorrecta =0),
+                Pregunta(17, 3, "¿Cuál es el mensaje del cuento?", listOf("A) Reír es malo", "B) La amistad puede curar", "C) La enfermedad es divertida", "D) Las ventanas son mágicas"), respuestaCorrecta =1),
+                Pregunta(18, 3, "¿Cómo era el mejor amigo del niño?", listOf("A) Perezoso", "B) Tímido", "C) Generoso y creativo", "D) Molesto"), respuestaCorrecta =2),
+                Pregunta(19, 3, "¿Qué valor muestra el cuento?", listOf("A) Amistad", "B) Envidia", "C) Egoísmo", "D) Rabia"), respuestaCorrecta =0),
+                Pregunta(20, 3, "¿Qué causó la recuperación del niño?", listOf("A) La medicina", "B) El tiempo", "C) La risa y el cariño de su amigo", "D) Dormir más"), 2),
+                Pregunta(21, 3, "¿Qué aprendemos del mejor amigo?", listOf("A) Que le gusta la magia", "B) Que hizo todo por ver feliz al niño", "C) Que era muy estudioso", "D) Que se burlaba del enfermo"), respuestaCorrecta =1),
+                Pregunta(22, 3, "¿Por qué se disfrazaba el amigo?", listOf("A) Para jugar con su hermano", "B) Para alegrar al niño enfermo", "C) Para ir al circo", "D) Para engañar a sus padres"), respuestaCorrecta =1),
+                Pregunta(23, 3, "¿Qué emoción se repite en el cuento?", listOf("A) Miedo", "B) Alegría", "C) Enfado", "D) Sorpresa"), respuestaCorrecta =1),
+                Pregunta(24, 3, "¿Cómo ayudó la imaginación en el cuento?", listOf("A) Para jugar", "B) Para curar al niño con alegría", "C) Para dormir", "D) Para hacer tareas"), respuestaCorrecta =1),
+                Pregunta(25, 3, "¿Qué hizo el niño al volver al colegio?", listOf("A) Estudió", "B) Contó lo sucedido", "C) Se peleó", "D) Lloró"), respuestaCorrecta =1),
+                Pregunta(26, 3, "¿Qué significa “no dejar que nadie esté solo”?", listOf("A) Molestar a otros", "B) Acompañar a quienes lo necesitan", "C) Reírse de todos", "D) Cerrar la puerta"), respuestaCorrecta =1),
+                Pregunta(27, 3, "¿Cómo fue la transformación del niño?", listOf("A) De alegre a triste", "B) De enfermo a feliz", "C) De ruidoso a callado", "D) De valiente a cobarde"), respuestaCorrecta =1),
+                Pregunta(28, 3, "¿Qué parte del cuento muestra la sorpresa?", listOf("A) Cuando enferma", "B) Cuando se cae", "C) Cuando aparece el pingüino", "D) Cuando duerme"), respuestaCorrecta =2),
+                Pregunta(29, 3, "¿Por qué los personajes eran \"locos\"?", listOf("A) Porque hablaban raro", "B) Porque eran graciosos y divertidos", "C) Porque corrían", "D) Porque gritaban"), respuestaCorrecta =1),
+                Pregunta(30, 3, "¿Cómo actuó el niño al principio con la sombra?", listOf("A) Se rió", "B) Se preguntaba qué era", "C) Se durmió", "D) Gritó"), respuestaCorrecta =1),
+                Pregunta(31, 3, "¿Qué parte del cuento fue mágica para el niño?", listOf("A) Dormir", "B) Comer", "C) Ver al pingüino", "D) Llorar"), respuestaCorrecta =2),
+                Pregunta(32, 3, "¿Qué sintió el niño al ver más personajes?", listOf("A) Miedo", "B) Aburrimiento", "C) Risa y alegría", "D) Enojo"), respuestaCorrecta =2),
+                Pregunta(33, 3, "¿Cómo ayudó el amigo al niño sin que él supiera?", listOf("A) Disfrazándose y animándolo", "B) Llevándole comida", "C) Contándole chismes", "D) Regañándolo"), respuestaCorrecta =0),
+                Pregunta(34, 3, "¿Qué significa “no dejar sin sonreír un rato”?", listOf("A) Gritar", "B) Jugar", "C) Hacer reír a los demás", "D) Dormir más"), respuestaCorrecta =2),
+                Pregunta(35, 3, "¿Cuál fue el mejor regalo que recibió el niño?", listOf("A) Un celular", "B) La alegría de su amigo", "C) Dinero", "D) Un videojuego"), respuestaCorrecta =1),
+                Pregunta(36, 3, "¿Qué hizo que el niño se sienta acompañado?", listOf("A) La visita de personajes", "B) La televisión", "C) El doctor", "D) El celular"), respuestaCorrecta =0),
+                Pregunta(37, 3, "¿Qué podemos aprender del amigo?", listOf("A) Que ser buen amigo es ayudar con amor", "B) Que hay que disfrazarse", "C) Que estudiar no es importante", "D) Que hay que enfermarse"), respuestaCorrecta =0),
+                Pregunta(38, 3, "¿Qué parte del cuerpo usó el amigo para ayudar?", listOf("A) La cabeza", "B) El corazón y la creatividad", "C) Los pies", "D) Las manos"), respuestaCorrecta =1),
+                Pregunta(39, 3, "¿Qué lección deja el cuento a los lectores?", listOf("A) No enfermarse", "B) Alegrar a quienes lo necesitan", "C) Comer bien", "D) Hacer tareas"), respuestaCorrecta =1),
+                Pregunta(40, 3, "¿Cómo puede ayudar un niño a un amigo triste?", listOf("A) Ignorándolo", "B) Haciendo algo divertido", "C) Burlándose", "D) No hablándole"), respuestaCorrecta =1),
+                Pregunta(41, 3, "¿Qué valor demostró el amigo con sus acciones?", listOf("A) Vanidad", "B) Orgullo", "C) Generosidad", "D) Desconfianza"), respuestaCorrecta =2),
+                Pregunta(42, 3, "¿Qué recurso literario aparece con los personajes extraños?", listOf("A) La realidad", "B) La fantasía", "C) La ciencia", "D) El miedo"), respuestaCorrecta =1),
+                Pregunta(43, 3, "¿Qué podría haber pasado si el amigo no ayudaba?", listOf("A) Nada", "B) El niño podría no haberse recuperado tan rápido", "C) El niño se iría del país", "D) El pingüino se quedaría"), respuestaCorrecta =1),
+                Pregunta(44, 3, "¿Qué aprendemos sobre el poder de la risa?", listOf("A) Que no ayuda", "B) Que puede sanar y dar alegría", "C) Que es peligrosa", "D) Que es mala"), respuestaCorrecta =1),
+                Pregunta(45, 3, "¿Qué parte del cuento es más divertida?", listOf("A) Cuando enferma", "B) Cuando se despide", "C) Cuando aparecen los personajes disfrazados", "D) Cuando duerme"), respuestaCorrecta =2),
+                Pregunta(46, 3, "¿Qué hace un amigo de verdad?", listOf("A) Se burla", "B) Ignora", "C) Acompaña y se preocupa", "D) Miente"), respuestaCorrecta =2),
+                Pregunta(47, 3, "¿Qué hizo el niño al final con lo que aprendió?", listOf("A) Lo olvidó", "B) Se lo guardó", "C) Empezó a ayudar a otros", "D) Lo escribió"), respuestaCorrecta =2),
+                Pregunta(48, 3, "¿Qué partes del cuento muestran ternura?", listOf("A) Ninguna", "B) Las acciones del amigo", "C) El silencio del niño", "D) Las hormigas"), respuestaCorrecta =1),
+                Pregunta(49, 3, "¿Qué quiere decir “ya no podía dejar de reír”?", listOf("A) Que estaba confundido", "B) Que se lastimó", "C) Que se puso muy feliz", "D) Que gritó"), respuestaCorrecta =2),
+                Pregunta(50, 3, "¿Cómo se llama el cuento?", listOf("A) Mirando por la ventana", "B) El niño enfermo", "C) El pingüino mágico", "D) La mochila secreta"), respuestaCorrecta =0)
+            )
+        )
+
+
         db.contenidoDao().insertarContenido(nivel1)
 
         db.contenidoDao().insertarContenido(nivel2)

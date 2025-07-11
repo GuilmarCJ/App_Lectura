@@ -162,13 +162,12 @@ fun Nivel1Screen(
             incorrectas = incorrectas,
             onCerrar = {
                 if (correctas > 7) {
-                    onAvanzarNivel2()
+                    onAvanzarNivel2() // <- Esto notifica al NavGraph
                 } else {
                     onBack()
                 }
             }
         )
-
     }
 }
 

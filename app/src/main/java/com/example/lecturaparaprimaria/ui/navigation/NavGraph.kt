@@ -22,6 +22,7 @@ import com.example.lecturaparaprimaria.data.ContenidoEducativo
 import com.example.lecturaparaprimaria.data.Usuario
 import com.example.lecturaparaprimaria.ui.screens.Nivel1Screen
 import com.example.lecturaparaprimaria.ui.screens.Nivel2Screen
+import com.example.lecturaparaprimaria.ui.screens.Nivel3Screen
 import com.example.lecturaparaprimaria.ui.screens.OnboardingScreen
 import com.example.lecturaparaprimaria.ui.screens.PantallaPrincipal
 import com.example.lecturaparaprimaria.ui.screens.PantallaRegistro
@@ -32,6 +33,12 @@ import kotlinx.coroutines.CoroutineScope
 
 import kotlinx.coroutines.launch
 
+import android.content.Context
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalContext
+import com.example.lecturaparaprimaria.utils.PreferenceHelper
+
 
 @Composable
 fun NavGraph(
@@ -39,8 +46,21 @@ fun NavGraph(
     coroutineScope: CoroutineScope,
     modifier: Modifier = Modifier
 ) {
-    var pantallaActual by remember { mutableStateOf("onboarding") }
+    val context = LocalContext.current
+    var pantallaActual by remember {
+        mutableStateOf(
+            when {
+                !PreferenceHelper.isOnboardingShown(context) -> "onboarding"
+                PreferenceHelper.getUsuarioActual(context) != null -> "principal"
+                else -> "registro"
+            }
+        )
+    }
+
+
     var usuarioActivo by remember { mutableStateOf<Usuario?>(null) }
+
+
 
     suspend fun refrescarUsuario(nombre: String) {
         usuarioActivo = database.usuarioDao().obtenerPorNombre(nombre)
@@ -84,20 +104,30 @@ fun NavGraph(
 
             "principal" -> {
                 LaunchedEffect(Unit) {
-                    if (usuarioActivo != null) {
+                    if (usuarioActivo == null) {
+                        PreferenceHelper.getUsuarioActual(context)?.let { nombre ->
+                            refrescarUsuario(nombre)
+                        }
+                    } else {
                         refrescarUsuario(usuarioActivo!!.nombre)
                     }
                 }
-                PantallaPrincipal(
-                    usuario = usuarioActivo!!,
-                    onNivelSeleccionado = { nivel ->
-                        pantallaActual = when (nivel) {
-                            1 -> "nivel1" // Navega al Nivel 1
-                            else -> "principal" // Otros niveles (bloqueados)
+
+                usuarioActivo?.let { usuario ->
+                    PantallaPrincipal(
+                        usuario = usuario,
+                        onNivelSeleccionado = { nivel ->
+                            pantallaActual = when (nivel) {
+                                1 -> "nivel1"
+                                else -> "principal"
+                            }
                         }
-                    }
-                )
+                    )
+                } ?: Box(Modifier.fillMaxSize()) {
+                    Text("Cargando usuario...", Modifier.align(Alignment.Center))
+                }
             }
+
 
             "nivel1" -> {
                 // Obtén el contenido del Nivel 1 desde Room
@@ -147,6 +177,32 @@ fun NavGraph(
                     Text("Error: No se encontró el nivel")
                 }
             }
+
+            "nivel3" -> {
+                val contenido by produceState<ContenidoEducativo?>(
+                    initialValue = null,
+                    key1 = Unit,
+                    producer = {
+                        value = database.contenidoDao().obtenerContenido(3)
+                    }
+                )
+
+                if (contenido != null) {
+                    Nivel3Screen(
+                        contenido = contenido!!,
+                        onRespuestaSeleccionada = { esCorrecta ->
+                            coroutineScope.launch {
+                                // Guardar en Firebase si deseas
+                            }
+                        },
+                        onBack = { pantallaActual = "principal" },
+                        onFinalizar = { pantallaActual = "principal" } // Aquí puedes ir a una pantalla final o resumen
+                    )
+                } else {
+                    Text("Error: No se encontró el nivel 3")
+                }
+            }
+
 
 
         }

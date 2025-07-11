@@ -28,6 +28,9 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 
+import com.example.lecturaparaprimaria.utils.PreferenceHelper
+
+
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun OnboardingScreen(
@@ -136,9 +139,16 @@ fun OnboardingScreen(
         }
 
         // Botón "Iniciar" (solo en la última página) con sonido
+        val context = LocalContext.current
+
         if (pagerState.currentPage == pages.size - 1) {
             Button(
-                onClick = { handleClickWithSound(onStartClicked) },
+                onClick = {
+                    handleClickWithSound {
+                        PreferenceHelper.setOnboardingShown(context)
+                        onStartClicked()
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 32.dp, vertical = 24.dp),
@@ -151,6 +161,7 @@ fun OnboardingScreen(
                 Text("Comenzar", style = MaterialTheme.typography.labelLarge)
             }
         }
+
     }
 
     // Limpieza cuando el composable se desmonte

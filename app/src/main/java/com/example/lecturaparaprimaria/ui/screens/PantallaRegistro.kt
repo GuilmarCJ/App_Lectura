@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.example.lecturaparaprimaria.R
 import com.example.lecturaparaprimaria.data.AppDatabase
 import com.example.lecturaparaprimaria.data.Usuario
+import com.example.lecturaparaprimaria.utils.PreferenceHelper
 import com.example.lecturaparaprimaria.utils.SoundPlayer
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
@@ -97,9 +98,11 @@ fun PantallaRegistro(
                                     .set(usuario)
                                     .await()
                                 mensaje = "¡Usuario creado con éxito!"
+                                PreferenceHelper.setUsuarioActual(context, usuario.nombre)
                                 onUsuarioRegistrado(usuario)
                             } catch (e: Exception) {
                                 mensaje = "Usuario guardado localmente"
+                                PreferenceHelper.setUsuarioActual(context, usuario.nombre)
                                 onUsuarioRegistrado(usuario)
                             }
                         }
