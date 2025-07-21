@@ -48,14 +48,93 @@ class SyncRepository(private val appDatabase: AppDatabase) {
             // Actualiza en Room
             appDatabase.usuarioDao().actualizarAvatar(nombre, avatarId)
 
-            // Sincroniza con Firebase
-            firestore.collection("usuarios")
-                .document(nombre)
-                .update("avatarId", avatarId)
-                .await()
+            // Actualiza en Firestore dentro de salones
+            val salonesSnapshot = firestore.collection("salones").get().await()
+
+            for (document in salonesSnapshot.documents) {
+                val alumnos = document.get("alumnos") as? List<Map<String, Any>> ?: continue
+
+                val index = alumnos.indexOfFirst { it["usuario"] == nombre }
+                if (index != -1) {
+                    val nuevosAlumnos = alumnos.toMutableList()
+                    val alumnoModificado = nuevosAlumnos[index].toMutableMap()
+
+                    // Agrega o actualiza avatarId
+                    alumnoModificado["avatarId"] = avatarId
+                    nuevosAlumnos[index] = alumnoModificado
+
+                    firestore.collection("salones").document(document.id)
+                        .update("alumnos", nuevosAlumnos)
+                        .await()
+
+                    break // Ya lo actualizamos, no hace falta seguir
+                }
+            }
+
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
+
+
+    suspend fun verificarCredenciales(usuario: String, clave: String): Boolean {
+        return try {
+            val salonesSnapshot = firestore.collection("salones").get().await()
+
+            for (document in salonesSnapshot.documents) {
+                val alumnos = document.get("alumnos") as? List<Map<String, Any>> ?: continue
+
+                for (alumno in alumnos) {
+                    val user = alumno["usuario"] as? String
+                    val pass = alumno["clave"] as? String
+                    if (user == usuario && pass == clave) {
+                        return true // ¡Coincidencia encontrada!
+                    }
+                }
+            }
+
+            false // No encontrado
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+    }
+
+    suspend fun actualizarCredencialesEnSalones(usuarioAntiguo: String, nuevaClave: String, nuevoUsuario: String): Boolean {
+        return try {
+            val db = FirebaseFirestore.getInstance()
+            val salonesSnapshot = db.collection("salones").get().await()
+
+            for (document in salonesSnapshot.documents) {
+                val alumnos = document.get("alumnos") as? List<Map<String, String>> ?: continue
+
+                // Verifica si el alumno actual está en este documento
+                val index = alumnos.indexOfFirst { it["usuario"] == usuarioAntiguo }
+                if (index != -1) {
+                    // Modifica los datos
+                    val nuevosAlumnos = alumnos.toMutableList()
+                    val alumnoModificado = nuevosAlumnos[index].toMutableMap()
+                    alumnoModificado["usuario"] = nuevoUsuario
+                    alumnoModificado["clave"] = nuevaClave
+                    nuevosAlumnos[index] = alumnoModificado
+
+                    // Sobrescribe todo el array
+                    db.collection("salones").document(document.id)
+                        .update("alumnos", nuevosAlumnos)
+                        .await()
+
+                    return true
+                }
+            }
+
+            false
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+    }
+
+
+
 
 }

@@ -1,7 +1,5 @@
 package com.example.lecturaparaprimaria.ui.navigation
 
-
-
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material.Text
 
@@ -37,8 +35,10 @@ import android.content.Context
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
+import com.example.lecturaparaprimaria.data.SyncRepository
+import com.example.lecturaparaprimaria.ui.screens.PantallaInicioSesion
+import com.example.lecturaparaprimaria.ui.screens.PantallaCambioCredenciales
 import com.example.lecturaparaprimaria.utils.PreferenceHelper
-
 
 @Composable
 fun NavGraph(
@@ -47,12 +47,14 @@ fun NavGraph(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
+    val syncRepository = remember { SyncRepository(database) }
+
     var pantallaActual by remember {
         mutableStateOf(
             when {
                 !PreferenceHelper.isOnboardingShown(context) -> "onboarding"
                 PreferenceHelper.getUsuarioActual(context) != null -> "principal"
-                else -> "registro"
+                else -> "inicio_sesion"
             }
         )
     }
@@ -70,16 +72,37 @@ fun NavGraph(
         when (pantallaActual) {
 
             "onboarding" -> OnboardingScreen(
-                onStartClicked = { pantallaActual = "registro" }
+                onStartClicked = { pantallaActual = "inicio_sesion" }
             )
 
-            "registro" -> PantallaRegistro(
+
+            "inicio_sesion" -> PantallaInicioSesion(
                 database = database,
-                onUsuarioRegistrado = { usuario ->
+                syncRepository = syncRepository, // ← AÑADE ESTO
+                onLoginSuccess = { usuario ->
                     usuarioActivo = usuario
-                    pantallaActual = "seleccionar_avatar"
+                    pantallaActual = "cambio_credenciales"
                 },
-                irAPantallaUsuarios = { pantallaActual = "seleccionar" }
+                onBack = {
+                    pantallaActual = "onboarding"
+                }
+            )
+
+            "cambio_credenciales" -> PantallaCambioCredenciales(
+                usuarioActual = usuarioActivo!!.nombre,
+                claveActual = "clave", // si guardas la clave, pásala aquí
+                syncRepository = syncRepository,
+                onCredencialesActualizadas = { nuevoNombre ->
+                    coroutineScope.launch {
+                        // ✅ Guarda en Room el nuevo usuario
+                        val nuevoUsuario = Usuario(nombre = nuevoNombre, avatarId = -1)
+                        database.usuarioDao().insertar(nuevoUsuario)
+
+                        usuarioActivo = nuevoUsuario
+                        pantallaActual = "seleccionar_avatar"
+                    }
+                }
+
             )
 
             "seleccionar" -> PantallaSeleccionUsuario(
@@ -94,6 +117,7 @@ fun NavGraph(
             "seleccionar_avatar" -> PantallaSeleccionAvatar(
                 usuario = usuarioActivo!!,
                 database = database,
+                syncRepository = syncRepository, // ✅ agrégalo aquí
                 onAvatarSeleccionado = {
                     coroutineScope.launch {
                         refrescarUsuario(usuarioActivo!!.nombre)

@@ -26,6 +26,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.lecturaparaprimaria.data.AppDatabase
+import com.example.lecturaparaprimaria.data.SyncRepository
 import com.example.lecturaparaprimaria.data.Usuario
 import com.example.lecturaparaprimaria.ui.components.Avatares
 import com.google.firebase.firestore.FirebaseFirestore
@@ -36,6 +37,7 @@ import kotlinx.coroutines.tasks.await
 fun PantallaSeleccionAvatar(
     usuario: Usuario,
     database: AppDatabase,
+    syncRepository: SyncRepository,
     onAvatarSeleccionado: () -> Unit
 ) {
     val avatares = Avatares.lista
@@ -103,22 +105,19 @@ fun PantallaSeleccionAvatar(
         Button(
             onClick = {
                 coroutineScope.launch {
-                    database.usuarioDao().actualizarAvatar(usuario.nombre, idAvatarSeleccionado)
                     try {
-                        FirebaseFirestore.getInstance()
-                            .collection("usuarios")
-                            .document(usuario.nombre)
-                            .update("avatarId", idAvatarSeleccionado)
-                            .await()
+                        syncRepository.syncAvatar(usuario.nombre, idAvatarSeleccionado)
+                        Toast.makeText(context, "Avatar actualizado correctamente", Toast.LENGTH_SHORT).show()
                     } catch (e: Exception) {
                         Toast.makeText(
                             context,
-                            "Avatar guardado localmente. Se sincronizará con internet",
+                            "Avatar guardado localmente. Se sincronizará luego",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
                     onAvatarSeleccionado()
                 }
+
             },
             modifier = Modifier
                 .fillMaxWidth()
