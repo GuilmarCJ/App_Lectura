@@ -55,12 +55,17 @@ fun NavGraph(
                 !PreferenceHelper.isOnboardingShown(context) -> "onboarding"
                 PreferenceHelper.getUsuarioActual(context) != null -> "principal"
                 else -> "inicio_sesion"
+
             }
         )
     }
 
 
     var usuarioActivo by remember { mutableStateOf<Usuario?>(null) }
+
+    var usuarioParaCambio by remember { mutableStateOf("") }
+    var claveParaCambio by remember { mutableStateOf("") }
+
 
 
 
@@ -78,31 +83,31 @@ fun NavGraph(
 
             "inicio_sesion" -> PantallaInicioSesion(
                 database = database,
-                syncRepository = syncRepository, // ← AÑADE ESTO
-                onLoginSuccess = { usuario ->
+                syncRepository = syncRepository,
+                onLoginSuccess = { usuario, requiereCambio ->
                     usuarioActivo = usuario
+                    pantallaActual = if (usuario.avatarId == -1) "seleccionar_avatar" else "principal" // ✅ Solución correcta
+                },
+                onRequirePasswordChange = { usuario, clave ->
+                    usuarioParaCambio = usuario
+                    claveParaCambio = clave
                     pantallaActual = "cambio_credenciales"
                 },
-                onBack = {
-                    pantallaActual = "onboarding"
-                }
+                onBack = { /* ... */ }
             )
 
             "cambio_credenciales" -> PantallaCambioCredenciales(
-                usuarioActual = usuarioActivo!!.nombre,
-                claveActual = "clave", // si guardas la clave, pásala aquí
+                usuarioActual = usuarioParaCambio,
+                claveActual = claveParaCambio,
                 syncRepository = syncRepository,
                 onCredencialesActualizadas = { nuevoNombre ->
                     coroutineScope.launch {
-                        // ✅ Guarda en Room el nuevo usuario
                         val nuevoUsuario = Usuario(nombre = nuevoNombre, avatarId = -1)
                         database.usuarioDao().insertar(nuevoUsuario)
-
                         usuarioActivo = nuevoUsuario
-                        pantallaActual = "seleccionar_avatar"
+                        pantallaActual = "seleccionar_avatar" // o "principal"
                     }
                 }
-
             )
 
             "seleccionar" -> PantallaSeleccionUsuario(

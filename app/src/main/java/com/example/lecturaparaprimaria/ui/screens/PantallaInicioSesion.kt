@@ -17,9 +17,10 @@ import kotlinx.coroutines.launch
 @Composable
 fun PantallaInicioSesion(
     database: AppDatabase,
-    onLoginSuccess: (Usuario) -> Unit,
+    syncRepository: SyncRepository,
+    onLoginSuccess: (Usuario, Boolean) -> Unit,
+    onRequirePasswordChange: (String, String) -> Unit, // 👈 NUEVO
     onBack: () -> Unit,
-    syncRepository: SyncRepository, // <-- nuevo
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -41,7 +42,7 @@ fun PantallaInicioSesion(
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text("Correo electrónico") },
+            label = { Text("Usuario") }, // si no usas correo real, cambia el label
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -61,28 +62,39 @@ fun PantallaInicioSesion(
                 onClick = {
                     cargando = true
                     scope.launch {
-                        val credencialesValidas = syncRepository.verificarCredenciales(email, password)
+                        val resultado = syncRepository.verificarCredenciales(email, password)
                         cargando = false
 
-                        if (credencialesValidas) {
-                            val nombre = email.substringBefore('@')
+                        if (resultado.esValido) {
+                            val nombre = resultado.usuarioFirestore ?: email.substringBefore('@')
+                            val avatarId = resultado.avatarId
+
                             var usuario = database.usuarioDao().obtenerPorNombre(nombre)
+
                             if (usuario == null) {
-                                val nuevo = Usuario(nombre = nombre, avatarId = -1)
-                                database.usuarioDao().insertar(nuevo)
-                                usuario = nuevo
+                                usuario = Usuario(nombre = nombre, avatarId = avatarId)
+                                database.usuarioDao().insertar(usuario)
+                            } else if (usuario.avatarId != avatarId && avatarId != -1) {
+                                // actualiza por si acaso
+                                database.usuarioDao().actualizarAvatar(nombre, avatarId)
+                                usuario = usuario.copy(avatarId = avatarId)
                             }
-                            onLoginSuccess(usuario)
-                        } else {
-                            Toast.makeText(context, "Credenciales incorrectas", Toast.LENGTH_SHORT).show()
+
+
+                            if (resultado.requiereCambioClave) {
+                                onRequirePasswordChange(nombre, password)
+                            } else {
+                                onLoginSuccess(usuario, false)
+                            }
                         }
+
+
                     }
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Iniciar Sesión")
             }
-
 
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -92,3 +104,4 @@ fun PantallaInicioSesion(
         }
     }
 }
+
